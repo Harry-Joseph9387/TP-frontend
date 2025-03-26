@@ -10,6 +10,7 @@ function App() {
   const [path, setPath] = useState([]);
   const [loading, setLoading] = useState(false);
   const [suggestions, setSuggestions] = useState([]);
+  const [totalDistance, setTotalDistance] = useState(null);
 
   // Fetch place suggestions
   const fetchSuggestions = async (inputValue) => {
@@ -67,7 +68,8 @@ function App() {
       });
 
       const data = await response.json();
-      setPath(data.path.map((p) => p.coords));
+      setPath(data.path.map(p => p.coords));
+      setTotalDistance(data.total_distance);
     } catch (error) {
       console.error("Error finding path:", error);
       alert("Error finding path. Please try again.");
@@ -135,7 +137,7 @@ function App() {
       </button>
 
       {/* Map Component */}
-      <Map places={selectedPlaces} path={path} />
+      <Map places={selectedPlaces} path={path} totalDistance={totalDistance} />
     </div>
   );
 }
